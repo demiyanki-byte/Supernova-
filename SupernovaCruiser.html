@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUPERNOVA - Advanced Mobile Control & Security Tool</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #050509; /* Darker background */
+            --card-bg: rgba(20, 20, 35, 0.7); /* Slightly lighter card bg */
+            --primary: #7928ca; /* Purple */
+            --secondary: #ff0080; /* Pink */
+            --cyan: #00f2fe;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-glow: rgba(121, 40, 202, 0.3);
+            
+            /* Modern Rounded Corners */
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --radius-pill: 50px;
+
+            --font-head: 'Orbitron', sans-serif;
+            --font-sub: 'Rajdhani', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --transition: all 0.3s ease;
+        }
+
+        /* --- Reset & Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+            
+            /* Cosmic Background Gradient */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(121, 40, 202, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 0, 128, 0.1) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        
+        /* Global Glow Utility */
+        .glow-text {
+            text-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+        }
+
+        /* --- Navbar --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 8%;
+            background: rgba(5, 5, 9, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: var(--font-head);
+            font-size: 1.7rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--cyan), var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--cyan);
+            -webkit-text-fill-color: initial;
+            font-size: 1.4rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-family: var(--font-sub);
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--cyan);
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
+        }
+
+        .btn-buy-nav {
+            padding: 0.6rem 1.6rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-pill);
+            color: #fff;
+            font-family: var(--font-sub);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 0, 128, 0.3);
+        }
+
+        .btn-buy-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 128, 0.5);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 2rem 60px;
+            position: relative;
+        }
+
+        .hero-tag {
+            background: rgba(121, 40, 202, 0.15);
+            border: 1px solid var(--border-glow);
+            padding: 0.5rem 1.5rem;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-sub);
+            color: var(--cyan);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .hero h1 {
+            font-family: var(--font-head);
+            font-size: clamp(2.8rem, 7vw, 4.8rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(180deg, #ffffff 40%, #a0aec0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--cyan), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 700px;
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2.5rem;
+            border-radius: var(--radius-md);
+            font-family: var(--font-sub);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 25px rgba(121, 40, 202, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 0, 128, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(121, 40, 202, 0.1);
+            border-color: var(--border-glow);
+            color: #fff;
+        }
+
+        /* --- Section Styling --- */
+        section {
+            padding: 90px 8%;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-head);
+            font-size: clamp(2.2rem, 5vw, 3rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, #a0aec0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- Features Section --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top left, rgba(0, 242, 254, 0.06), transparent 70%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-glow);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 65px;
+            height: 65px;
+            background: rgba(121, 40, 202, 0.1);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--cyan);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-sub);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- Pricing Section --- */
+        .pricing-section {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .pricing-grid {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+            padding: 4rem 3rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card.popular {
+            border-color: var(--secondary);
+            box-shadow: 0 0 40px rgba(255, 0, 128, 0.15);
+            transform: scale(1.05);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 0.5rem 1.5rem;
+            border-radius: var(--radius-pill);
+            font-family: var(--font-sub);
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 0, 128, 0.3);
+        }
+
+        .pricing-card h3 {
+            font-family: var(--font-head);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .price {
+            font-family: var(--font-head);
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--cyan);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+        }
+
+        .price-period {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            display: block;
+        }
+
+        .price-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 4rem;
+            flex-grow: 1; /* Pushes button to bottom */
+        }
+
+        .price-features li {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-main);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .price-features li:last-child {
+            border-bottom: none;
+        }
+
+        .price-features li i {
+            color: var(--cyan);
+            font-size: 1.1rem;
+        }
+
+        .pricing-card .btn-primary {
+            width: 100%;
+            justify-content: center;
+            border-radius: var(--radius-pill); /* Pill shaped buttons for pricing */
+        }
+
+        /* --- Disclaimer Section --- */
+        .disclaimer-section {
+            padding: 60px 8%;
+        }
+
+        .disclaimer-box {
+            background: rgba(255, 0, 0, 0.03);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .disclaimer-box i {
+            font-size: 3rem;
+            color: #ef4444;
+            margin-bottom: 1.5rem;
+        }
+
+        .disclaimer-box h3 {
+            font-family: var(--font-sub);
+            font-size: 1.8rem;
+            color: #fff;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .disclaimer-box p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 4rem 8% 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background: rgba(3, 3, 6, 0.9);
+            text-align: center;
+        }
+
+        .footer-logo {
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* --- Responsive Media Queries --- */
+        @media (max-width: 1024px) {
+            nav { padding: 1rem 5%; }
+            section { padding: 80px 5%; }
+            .pricing-grid { gap: 2rem; }
+            .pricing-card.popular { transform: scale(1); } /* Disable scale on tablets */
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .btn-buy-nav { display: none; } /* Hide desktop nav */
+            
+            /* Add Mobile Menu Icon (Requires JS to function, but shown for UI) */
+            .logo { font-size: 1.5rem; }
+            
+            .hero { padding-top: 120px; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero p { font-size: 1.05rem; }
+
+            .feature-card { padding: 2rem; }
+            .pricing-card { padding: 3rem 2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-buttons { flex-direction: column; width: 100%; max-width: 300px;}
+            .btn-primary, .btn-secondary { justify-content: center; width: 100%;}
+            .section-header h2 { font-size: 2rem; }
+            .disclaimer-box { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- --- Navigation --- -->
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-bolt-lightning"></i> SUPERNOVA
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#features">Fitur</a></li>
+            <li><a href="#pricing">Harga</a></li>
+            <li><a href="#warning">Peringatan</a></li>
+        </ul>
+        <a href="https://t.me/YanzScurity" target="_blank" class="btn-buy-nav">
+            <i class="fa-brands fa-telegram"></i> Hubungi Admin
+        </a>
+    </nav>
+
+    <!-- --- Hero Section --- -->
+    <section class="hero" id="home">
+        <div class="hero-tag"><i class="fa-solid fa-shredder"></i> Advanced Mobile RAT System</div>
+        <h1>CONTROL ANYTHING<br>WITH <span>SUPERNOVA</span></h1>
+        <p>Sistem manajemen jarak jauh Android generasi terbaru dengan performa real-time tingkat tinggi dan arsitektur fitur kustom yang belum pernah ada sebelumnya.</p>
+        <div class="hero-buttons">
+            <a href="https://t.me/YanzScurity" target="_blank" class="btn-primary">
+                <i class="fa-brands fa-telegram"></i> Beli Akses VIP
+            </a>
+            <a href="#features" class="btn-secondary">Eksplorasi Fitur</a>
+        </div>
+    </section>
+
+    <!-- --- Features Section --- -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <h2>FITUR APK SUPERNOVA</h2>
+            <p>Daftar kapabilitas teknis utama yang tertanam dalam sistem SUPERNOVA RAT</p>
+        </div>
+
+        <div class="features-grid">
+            <!-- Feature 1 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                <h3>LOCK HP + CUSTOM</h3>
+                <p>Kunci perangkat target secara instan. Dukungan kustomisasi Nama PIN, teks pesan kunci, dan background.</p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-code"></i></div>
+                <h3>LOCK CUSTOM HTML</h3>
+                <p>Tampilkan halaman HTML kustom (seperti fake login atau peringatan) saat perangkat dikunci.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-satellite-dish"></i></div>
+                <h3>SOS MODE</h3>
+                <p>Aktifkan mode darurat untuk prioritas koneksi tinggi dan respons perintah real-time paling cepat.</p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-app-store-ios"></i></div>
+                <h3>BLOCK APP</h3>
+                <p>Pilih dan blokir akses ke aplikasi tertentu yang terinstall di perangkat target.</p>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-icicles"></i></div>
+                <h3>FREEZE LAYAR</h3>
+                <p>Bekukan input layar perangkat target, membuatnya tidak responsif terhadap sentuhan pengguna asli.</p>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-camera-rotate"></i></div>
+                <h3>FOTO / LIVE KAMERA</h3>
+                <p>Ambil tangkapan foto diam atau stream live video dari kamera depan/belakang secara diam-diam.</p>
+            </div>
+
+            <!-- Feature 7 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-image"></i></div>
+                <h3>LOCK FOTO MAS AMBA</h3>
+                <p>Fitur kustom khusus untuk mengunci perangkat dengan visual preset khusus (Mode Mas Amba).</p>
+            </div>
+
+            <!-- Feature 8 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-comments"></i></div>
+                <h3>CHAT LOCK</h3>
+                <p>Kunci akses spesifik ke aplikasi pesan/chatting di perangkat untuk mencegah komunikasi.</p>
+            </div>
+
+            <!-- Feature 9 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-images"></i></div>
+                <h3>LIHAT GALLERY</h3>
+                <p>Akses jarak jauh untuk melihat, menjelajahi, dan mengunduh file media dari galeri foto & video.</p>
+            </div>
+
+            <!-- Feature 10 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-trash-can"></i></div>
+                <h3>FACTORY RESET</h3>
+                <p>Perintah wipe total. Kembalikan perangkat target ke pengaturan pabrik, menghapus semua data.</p>
+            </div>
+
+            <!-- Feature 11 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-power-off"></i></div>
+                <h3>SHUTDOWN HP</h3>
+                <p>Kirim perintah matikan daya paksa ke perangkat target jarak jauh.</p>
+            </div>
+
+            <!-- Feature 12 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-shield-virus"></i></div>
+                <h3>ANTI UNINSTALL</h3>
+                <p>Proteksi tingkat tinggi. Mencegah user target menghapus aplikasi SUPERNOVA dari perangkat.</p>
+            </div>
+
+            <!-- Feature 13 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+                <h3>LACAK HP</h3>
+                <p>Dapatkan lokasi GPS presisi dan real-time dari perangkat target kapan saja.</p>
+            </div>
+
+            <!-- Feature 14 -->
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-plus"></i></div>
+                <h3>DAN BANYAK LAGI</h3>
+                <p>Berbagai fitur tambahan dan update berkala untuk performa & kapabilitas kontrol yang lebih luas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- Pricing Section --- -->
+    <section class="pricing-section" id="pricing">
+        <div class="section-header">
+            <h2>PRICING / ROLE</h2>
+            <p>Pilih lisensi akses berdasarkan level penggunaan Anda</p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Member Card -->
+            <div class="pricing-card">
+                <h3>MEMBER</h3>
+                <div class="price">10K</div>
+                <span class="price-period">Akses Permanen</span>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-square-check"></i> Full Akses Fitur Utama</li>
+                    <li><i class="fa-solid fa-square-check"></i> Setup Guide Dasar</li>
+                    <li><i class="fa-solid fa-square-check"></i> Standard Support</li>
+                    <li><i class="fa-solid fa-square-check"></i> Anti Uninstall Included</li>
+                </ul>
+                <a href="https://t.me/YanzScurity" target="_blank" class="btn-primary">
+                    Beli Role Member
+                </a>
+            </div>
+
+            <!-- Reseller Card -->
+            <div class="pricing-card popular">
+                <div class="pricing-badge">BEST VALUE</div>
+                <h3>RESELLER</h3>
+                <div class="price">20K</div>
+                <span class="price-period">Akses Permanen + Hak Jual</span>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-square-check"></i> Semua Fitur Member</li>
+                    <li><i class="fa-solid fa-square-check"></i> Hak Menjual Kembali (Resell)</li>
+                    <li><i class="fa-solid fa-square-check"></i> VIP Direct Support Admin</li>
+                    <li><i class="fa-solid fa-square-check"></i> Mentoring & Update Prioritas</li>
+                </ul>
+                <a href="https://t.me/YanzScurity" target="_blank" class="btn-primary">
+                    Beli Role Reseller
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- Warning Section --- -->
+    <section class="disclaimer-section" id="warning">
+        <div class="disclaimer-box">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <h3>PERINGATAN PENTING</h3>
+            <p>JANGAN DI SALAH GUNAKAN !!! Penjual dan pembuat SUPERNOVA tidak bertanggung jawab atas segala bentuk penyalahgunaan alat ini. Gunakan hanya untuk tujuan edukasi, pengujian penetrasi sah pada sistem milik sendiri, atau kebutuhan keamanan yang disetujui.</p>
+        </div>
+    </section>
+
+    <!-- --- Footer --- -->
+    <footer>
+        <div class="logo footer-logo">
+            <i class="fa-solid fa-bolt-lightning"></i> SUPERNOVA
+        </div>
+        <div class="footer-links">
+            <a href="#home">Home</a>
+            <a href="#features">Fitur</a>
+            <a href="#pricing">Harga</a>
+            <a href="https://t.me/YanzScurity" target="_blank">Telegram Admin</a>
+        </div>
+        <p class="copyright">&copy; 2026 SUPERNOVA Project. All rights reserved.</p>
+        <p class="copyright" style="font-size: 0.75rem;">Developed by YanzScurity</p>
+    </footer>
+
+    <!-- Simple Smooth Scroll Active Link Script -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                
+                // Update active link
+                document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
